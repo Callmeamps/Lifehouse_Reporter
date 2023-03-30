@@ -1,0 +1,10 @@
+langchain
+gradio
+openai
+cohere
+huggingface_hub
+google-search-results
+requests
+wikipedia
+wolframalpha
+discord
