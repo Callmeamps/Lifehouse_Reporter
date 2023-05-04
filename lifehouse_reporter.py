@@ -1,6 +1,7 @@
 import os
 import config
 import discord
+from discord import app_commands
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
@@ -57,24 +58,24 @@ chat_prompt = ChatPromptTemplate.from_messages([founder_prompt, input_prompt])
 chatgpt_chain = LLMChain(prompt=chat_prompt, llm=chatgpt)
 
 
-def Earl(user_input):
-    suffix = """Begin! Remember to use a tool only if you need to.
+# def Earl(user_input):
+#     suffix = """Begin! Remember to use a tool only if you need to.
 
-    Question: {input}
-    {agent_scratchpad}"""
+#     Question: {input}
+#     {agent_scratchpad}"""
 
-    prompt = ZeroShotAgent.create_prompt(
-        generic_tools,
-        prefix=formatted,
-        suffix=suffix,
-        input_variables=["input", "agent_scratchpad"]
-    )
-    llm_chain = LLMChain(llm=chatgpt, prompt=prompt)
-    tool_names = [tool.name for tool in generic_tools]
-    agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
-    agent_executor = AgentExecutor.from_agent_and_tools(agent=agent, tools=generic_tools, verbose=False)
-    agent_response = agent_executor.run(user_input)
-    return agent_response
+#     prompt = ZeroShotAgent.create_prompt(
+#         generic_tools,
+#         prefix=formatted,
+#         suffix=suffix,
+#         input_variables=["input", "agent_scratchpad"]
+#     )
+#     llm_chain = LLMChain(llm=chatgpt, prompt=prompt)
+#     tool_names = [tool.name for tool in generic_tools]
+#     agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
+#     agent_executor = AgentExecutor.from_agent_and_tools(agent=agent, tools=generic_tools, verbose=False)
+#     agent_response = agent_executor.run(user_input)
+#     return agent_response
 
 def EarlGPT(user_input):
     earlgpt_response = chatgpt_chain.predict(co_founder_thoughts=user_input, memory=buffer_memory)
@@ -83,10 +84,10 @@ def EarlGPT(user_input):
 def get_response(message: str) -> str:
     f_message = message.lower()
     
-    if f_message == "$earlgpt":
+    if f_message == "earlgpt":
         resp = EarlGPT(message)
         return str(resp)
-    if f_message == "$plug":
+    if f_message == "plug":
         resp = Earl(message)
         return str(resp)
     if f_message == "lora":
